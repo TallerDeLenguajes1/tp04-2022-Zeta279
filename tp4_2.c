@@ -3,20 +3,24 @@
 #include <string.h>
 #include <time.h>
 
+// Estructuras
 struct Tarea{
     int TareaID;
     char *Descripcion;
     int Duracion;
 } typedef Tarea;
 
+// Declaración de funciones
 void mostrarTarea(Tarea* t);
 
+// Función principal
 int main(){
     int cantidadTareas;
     char aux[100];
     char tareaRealizada;
     Tarea **listaTareas, **tareasRealizadas;
 
+    // Ingreso y control de la cantidad de tareas
     printf("Ingresar la cantidad de tareas: ");
     scanf("%d", &cantidadTareas);
 
@@ -25,11 +29,13 @@ int main(){
         scanf("%d", &cantidadTareas);
     }
 
+    // Listas de punteros de tipo Tarea
     listaTareas = (Tarea**) malloc(sizeof(struct Tarea*) * cantidadTareas);
     tareasRealizadas = (Tarea**) malloc(sizeof(struct Tarea*) * cantidadTareas);
 
     srand(time(NULL));
 
+    // Ingreso de las tareas
     for(int i = 0; i < cantidadTareas; i++){
         listaTareas[i] = (Tarea*) malloc(sizeof(struct Tarea));
         tareasRealizadas[i] = NULL;
@@ -45,6 +51,7 @@ int main(){
         listaTareas[i]->Duracion = 10 + rand() % 91;
     }
 
+    // Mostrar las tareas, y comprobar si se realizaron
     for(int i = 0; i < cantidadTareas; i++){
         printf("\nTarea %d:\n", i + 1);
         mostrarTarea(listaTareas[i]);
@@ -66,6 +73,7 @@ int main(){
         }
     }
 
+    // Mostrar las tareas realizadas
     printf("Tareas realizadas:\n");
     for(int i = 0; i < cantidadTareas; i++){
         if(tareasRealizadas[i] == NULL) continue;
@@ -74,6 +82,7 @@ int main(){
         mostrarTarea(tareasRealizadas[i]);
     }
 
+    // Mostrar las tareas pendientes
     printf("\nTareas pendientes:\n");
     for(int i = 0; i < cantidadTareas; i++){
         if(listaTareas[i] == NULL) continue;
@@ -85,6 +94,7 @@ int main(){
     return 0;
 }
 
+// Definición de funciones
 void mostrarTarea(Tarea* t){
     printf("ID: %d\n", t->TareaID);
     printf("Descripcion: %s\n", t->Descripcion);
