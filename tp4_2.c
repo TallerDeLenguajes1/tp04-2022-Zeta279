@@ -12,6 +12,7 @@ struct Tarea{
 
 // Declaración de funciones
 void mostrarTarea(Tarea* t);
+Tarea* buscarTarea(Tarea** listaTareas, char *palabra, int cantidad);
 
 // Función principal
 int main(){
@@ -91,6 +92,12 @@ int main(){
         mostrarTarea(listaTareas[i]);
     }
 
+    // Buscar la tarea por descripción
+    printf("Ingresar palabra clave: ");
+    fflush(stdin);
+    gets(aux);
+    mostrarTarea(buscarTarea(listaTareas, aux, cantidadTareas));
+
     return 0;
 }
 
@@ -99,4 +106,12 @@ void mostrarTarea(Tarea* t){
     printf("ID: %d\n", t->TareaID);
     printf("Descripcion: %s\n", t->Descripcion);
     printf("Duracion: %d\n", t->Duracion);
+}
+
+Tarea* buscarTarea(Tarea** listaTareas, char *palabra, int cantidad){
+    for(int i = 0; i < cantidad; i++){
+        if(strcmp(palabra, listaTareas[i]->Descripcion) == 0) return listaTareas[i];
+    }
+    
+    return NULL;
 }
