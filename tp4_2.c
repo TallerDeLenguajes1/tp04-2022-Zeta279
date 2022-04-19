@@ -9,8 +9,11 @@ struct Tarea{
     int Duracion;
 } typedef Tarea;
 
+Tarea* buscarTarea(Tarea** listaTareas, int ID, int cantidad);
+void mostrarTarea(Tarea* t);
+
 int main(){
-    int cantidadTareas;
+    int cantidadTareas, ID;
     char aux[100];
     char tareaRealizada;
     Tarea **listaTareas, **tareasRealizadas;
@@ -45,9 +48,7 @@ int main(){
 
     for(int i = 0; i < cantidadTareas; i++){
         printf("\nTarea %d:\n", i + 1);
-        printf("ID: %d\n", listaTareas[i]->TareaID);
-        printf("Descripcion: %s\n", listaTareas[i]->Descripcion);
-        printf("Duracion: %d\n", listaTareas[i]->Duracion);
+        mostrarTarea(listaTareas[i]);
 
         printf("Se realizo la tarea? (S: Si / N: No): ");
         fflush(stdin);
@@ -70,19 +71,36 @@ int main(){
     for(int i = 0; i < cantidadTareas; i++){
         if(tareasRealizadas[i] == NULL) continue;
 
-        printf("\nID: %d\n", tareasRealizadas[i]->TareaID);
-        printf("Descripcion: %s\n", tareasRealizadas[i]->Descripcion);
-        printf("Duracion: %d\n", tareasRealizadas[i]->Duracion);
+        printf("\n");
+        mostrarTarea(tareasRealizadas[i]);
     }
 
     printf("\nTareas pendientes:\n");
     for(int i = 0; i < cantidadTareas; i++){
         if(listaTareas[i] == NULL) continue;
 
-        printf("\nID: %d\n", listaTareas[i]->TareaID);
-        printf("Descripcion: %s\n", listaTareas[i]->Descripcion);
-        printf("Duracion: %d\n", listaTareas[i]->Duracion);
+        printf("\n");
+        mostrarTarea(listaTareas[i]);
     }
 
+    printf("Ingresar ID para buscar tarea: ");
+    scanf("%d", &ID);
+
+    mostrarTarea(buscarTarea(listaTareas, ID, cantidadTareas));
+
     return 0;
+}
+
+void mostrarTarea(Tarea* t){
+    printf("ID: %d\n", t->TareaID);
+    printf("Descripcion: %s\n", t->Descripcion);
+    printf("Duracion: %d\n", t->Duracion);
+}
+
+Tarea* buscarTarea(Tarea** listaTareas, int ID, int cantidad){
+    for(int i = 0; i < cantidad; i++){
+        if(ID == listaTareas[i]->TareaID) return listaTareas[i];
+    }
+    
+    return NULL;
 }
