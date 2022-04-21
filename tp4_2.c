@@ -12,11 +12,12 @@ struct Tarea{
 
 // Declaración de funciones
 void mostrarTarea(Tarea* t);
-Tarea* buscarTarea(Tarea** listaTareas, char *palabra, int cantidad);
+Tarea* busquedaPorPalabra(Tarea** listaTareas, char *palabra, int cantidad);
+Tarea* busquedaPorId(Tarea** listaTareas, int ID, int cantidad);
 
 // Función principal
 int main(){
-    int cantidadTareas;
+    int cantidadTareas, ID;
     char aux[100];
     char tareaRealizada;
     Tarea **listaTareas, **tareasRealizadas;
@@ -96,7 +97,13 @@ int main(){
     printf("Ingresar palabra clave: ");
     fflush(stdin);
     gets(aux);
-    mostrarTarea(buscarTarea(listaTareas, aux, cantidadTareas));
+    mostrarTarea(busquedaPorPalabra(listaTareas, aux, cantidadTareas));
+
+    // Buscar tarea por ID
+    printf("Ingresar ID para buscar tarea: ");
+    scanf("%d", &ID);
+
+    mostrarTarea(busquedaPorId(listaTareas, ID, cantidadTareas));
 
     return 0;
 }
@@ -108,9 +115,16 @@ void mostrarTarea(Tarea* t){
     printf("Duracion: %d\n", t->Duracion);
 }
 
-Tarea* buscarTarea(Tarea** listaTareas, char *palabra, int cantidad){
+Tarea* busquedaPorPalabra(Tarea** listaTareas, char *palabra, int cantidad){
     for(int i = 0; i < cantidad; i++){
         if(strcmp(palabra, listaTareas[i]->Descripcion) == 0) return listaTareas[i];
+    }
+    return NULL;
+}
+
+Tarea* busquedaPorId(Tarea** listaTareas, int ID, int cantidad){
+    for(int i = 0; i < cantidad; i++){
+        if(ID == listaTareas[i]->TareaID) return listaTareas[i];
     }
     
     return NULL;
