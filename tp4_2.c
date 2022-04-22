@@ -14,6 +14,7 @@ struct Tarea{
 void mostrarTarea(Tarea* t);
 Tarea* busquedaPorPalabra(Tarea** listaTareas, char *palabra, int cantidad);
 Tarea* busquedaPorId(Tarea** listaTareas, int ID, int cantidad);
+void liberarMemoria(Tarea** listaTareas, int cantidad);
 
 // Función principal
 int main(){
@@ -26,7 +27,7 @@ int main(){
     printf("Ingresar la cantidad de tareas: ");
     scanf("%d", &cantidadTareas);
 
-    if(cantidadTareas <= 0){
+    while(cantidadTareas <= 0){
         printf("Ingresar una cantidad valida de tareas: ");
         scanf("%d", &cantidadTareas);
     }
@@ -112,6 +113,10 @@ int main(){
     t = busquedaPorId(tareasRealizadas, ID, cantidadTareas);
     if(t != NULL) mostrarTarea(t);
 
+    // Liberar memoria
+    liberarMemoria(listaTareas, cantidadTareas);
+    liberarMemoria(tareasRealizadas, cantidadTareas);
+
     return 0;
 }
 
@@ -135,4 +140,15 @@ Tarea* busquedaPorId(Tarea** listaTareas, int ID, int cantidad){
     }
     
     return NULL;
+}
+
+void liberarMemoria(Tarea** listaTareas, int cantidad){
+    for(int i = 0; i < cantidad; i++){
+        if(listaTareas[i] != NULL){
+            free(listaTareas[i]->Descripcion);
+            free(listaTareas[i]);
+        }
+    }
+
+    free(listaTareas);
 }
