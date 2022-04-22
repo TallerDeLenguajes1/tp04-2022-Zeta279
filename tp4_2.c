@@ -20,7 +20,7 @@ int main(){
     int cantidadTareas, ID;
     char aux[100];
     char tareaRealizada;
-    Tarea **listaTareas, **tareasRealizadas;
+    Tarea **listaTareas, **tareasRealizadas, *t;
 
     // Ingreso y control de la cantidad de tareas
     printf("Ingresar la cantidad de tareas: ");
@@ -76,7 +76,7 @@ int main(){
     }
 
     // Mostrar las tareas realizadas
-    printf("Tareas realizadas:\n");
+    printf("\nTareas realizadas:");
     for(int i = 0; i < cantidadTareas; i++){
         if(tareasRealizadas[i] == NULL) continue;
 
@@ -85,7 +85,7 @@ int main(){
     }
 
     // Mostrar las tareas pendientes
-    printf("\nTareas pendientes:\n");
+    printf("\nTareas pendientes:");
     for(int i = 0; i < cantidadTareas; i++){
         if(listaTareas[i] == NULL) continue;
 
@@ -94,16 +94,23 @@ int main(){
     }
 
     // Buscar la tarea por descripción
-    printf("Ingresar palabra clave: ");
+    printf("\nIngresar palabra clave: ");
     fflush(stdin);
     gets(aux);
-    mostrarTarea(busquedaPorPalabra(listaTareas, aux, cantidadTareas));
+
+    t = busquedaPorPalabra(listaTareas, aux, cantidadTareas);
+    if(t != NULL) mostrarTarea(t);
+    t = busquedaPorPalabra(tareasRealizadas, aux, cantidadTareas);
+    if(t != NULL) mostrarTarea(t);
 
     // Buscar tarea por ID
-    printf("Ingresar ID para buscar tarea: ");
+    printf("\nIngresar ID para buscar tarea: ");
     scanf("%d", &ID);
 
-    mostrarTarea(busquedaPorId(listaTareas, ID, cantidadTareas));
+    t = busquedaPorId(listaTareas, ID, cantidadTareas);
+    if(t != NULL) mostrarTarea(t);
+    t = busquedaPorId(tareasRealizadas, ID, cantidadTareas);
+    if(t != NULL) mostrarTarea(t);
 
     return 0;
 }
@@ -117,14 +124,14 @@ void mostrarTarea(Tarea* t){
 
 Tarea* busquedaPorPalabra(Tarea** listaTareas, char *palabra, int cantidad){
     for(int i = 0; i < cantidad; i++){
-        if(strcmp(palabra, listaTareas[i]->Descripcion) == 0) return listaTareas[i];
+        if(listaTareas[i] != NULL && strcmp(palabra, listaTareas[i]->Descripcion) == 0) return listaTareas[i];
     }
     return NULL;
 }
 
 Tarea* busquedaPorId(Tarea** listaTareas, int ID, int cantidad){
     for(int i = 0; i < cantidad; i++){
-        if(ID == listaTareas[i]->TareaID) return listaTareas[i];
+        if(listaTareas[i] != NULL && ID == listaTareas[i]->TareaID) return listaTareas[i];
     }
     
     return NULL;
